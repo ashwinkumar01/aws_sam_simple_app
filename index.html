@@ -1,0 +1,45 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <body>
+        <h3>Enter a number in the appropriate boxes to get the return values from the functions</h3>
+        
+        <div>
+            <input type="text" id="fib">Sum of Fibonacci: Enter a non-negative integer</input>
+            <button onclick="httpGet(1)">Send Request</button>
+        </div><br><br>
+        <div>
+            <input type="text" id="factorial">Factorial: Enter a non-negative number</input>
+            <button onclick="httpGet(2)">Send Request</button>
+        </div><br><br>
+        <div>
+            <input type="text" id="ackermann1">Ackermann function: Enter 1st non-negative number</input><br>
+            <input type="text" id="ackermann2">Ackermann function:Enter 2nd non-negative number</input>
+            <button onclick="httpGet(3)">Send Request</button>
+        </div><br><br>
+        
+        <h4>Solution:</h4>
+        <div id="output"></div>
+        
+        <script>
+            var output = document.getElementById('output');
+        
+            function httpGet(func_call) {
+                let xmlHttp = new XMLHttpRequest();
+                if (func_call === 1) {
+                    xmlHttp.open("GET", "https://7p7narmief.execute-api.eu-central-1.amazonaws.com/Prod/fib/" + document.getElementById("fib").value, false);
+                } else if (func_call === 2) {
+                    xmlHttp.open("GET", "https://7p7narmief.execute-api.eu-central-1.amazonaws.com/Prod/factorial/" + document.getElementById("factorial").value, false);
+                } else if (func_call === 3) {
+                    let ackermann_url_string = "https://7p7narmief.execute-api.eu-central-1.amazonaws.com/Prod/ackermann/" + document.getElementById("ackermann1").value + '-' + document.getElementById("ackermann2").value;
+                    xmlHttp.open("GET", ackermann_url_string, false);
+                }
+                xmlHttp.send(null);
+                let returnValue = xmlHttp.responseText;
+                output.innerHTML = returnValue;
+            }
+        </script>
+        
+        </body>
+        </html>
+    

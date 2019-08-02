@@ -1,0 +1,94 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'klarna-interview-app
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  FibonacciFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://testbucketashwin01/a2e3238eb80f22c29476f0b689760da4
+      Handler: fib.lambda_handler
+      Runtime: python3.6
+      Events:
+        Fibonacci:
+          Type: Api
+          Properties:
+            Path: /fib/{number}
+            Method: get
+  FactorialFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://testbucketashwin01/a2e3238eb80f22c29476f0b689760da4
+      Handler: factorial.lambda_handler
+      Runtime: python3.6
+      Events:
+        Factorial:
+          Type: Api
+          Properties:
+            Path: /factorial/{number}
+            Method: get
+  AckermannFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://testbucketashwin01/a2e3238eb80f22c29476f0b689760da4
+      Handler: ackermann.lambda_handler
+      Runtime: python3.6
+      Events:
+        Ackermann:
+          Type: Api
+          Properties:
+            Path: /ackermann/{split_nums}
+            Method: get
+Outputs:
+  FibonacciApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/fib/
+  FibonacciFunction:
+    Description: Fibonacci function ARN
+    Value:
+      Fn::GetAtt:
+      - FibonacciFunction
+      - Arn
+  FibonacciFunctionIamRole:
+    Description: Implicit IAM Role created for Fibonnaci
+    Value:
+      Fn::GetAtt:
+      - FibonacciFunctionRole
+      - Arn
+  FactorialApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/factorial/
+  FactorialFunction:
+    Description: Factorial function ARN
+    Value:
+      Fn::GetAtt:
+      - FactorialFunction
+      - Arn
+  FactorialFunctionIamRole:
+    Description: Implicit IAM Role created for Factorial
+    Value:
+      Fn::GetAtt:
+      - FactorialFunctionRole
+      - Arn
+  AckermannApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ackermann/
+  AckermannFunction:
+    Description: Ackermann function ARN
+    Value:
+      Fn::GetAtt:
+      - AckermannFunction
+      - Arn
+  AckermannFunctionIamRole:
+    Description: Implicit IAM Role created for Ackermann
+    Value:
+      Fn::GetAtt:
+      - AckermannFunctionRole
+      - Arn

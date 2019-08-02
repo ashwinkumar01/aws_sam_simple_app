@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  klarna-interview-app
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  FactorialFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: interview_functions/
+      Handler: factorial.lambda_handler
+      Runtime: python3.6
+      Events:
+        Factorial:
+          Type: Api
+          Properties:
+            Path: /factorial/{number}
+            Method: get
+
+Outputs:
+  FactorialApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/factorial/"
+  FactorialFunction:
+    Description: "Factorial function ARN"
+    Value: !GetAtt FactorialFunction.Arn
+  FactorialFunctionIamRole:
+    Description: "Implicit IAM Role created for Factorial"
+    Value: !GetAtt FactorialFunctionRole.Arn
